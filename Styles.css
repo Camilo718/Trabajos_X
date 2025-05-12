@@ -1,0 +1,575 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    overflow: hidden;
+    font-family: 'Arial', sans-serif;
+    color: white;
+}
+
+#night-sky {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, #0b0d32 0%, #1a1e3c 50%, #212744 100%);
+    z-index: -3;
+}
+
+#stars-container {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+}
+
+#galaxy {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at center, rgba(100, 100, 160, 0) 0%, rgba(100, 100, 160, 0) 40%, rgba(128, 100, 200, 0.1) 60%, rgba(180, 120, 220, 0.15) 100%);
+    z-index: -1;
+    opacity: 0.6;
+}
+
+.moon {
+    position: absolute;
+    top: 11%;
+    left: 50%;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: transparent;
+    box-shadow: -10px -15px 0 0 #fffad6;
+    z-index: 1;
+    transform-origin: center;
+    transform: translate(-20%, -50%) rotate(-60deg);
+}
+
+
+
+.player-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 85%;
+    max-width: 400px;
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    z-index: 10;
+}
+
+.player-header {
+    margin-bottom: 15px;
+    font-size: 0.8em;
+    color: #aaa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.player-header .icon {
+    margin-right: 5px;
+}
+
+.album-art {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.album-art img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.album-shadow {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 100%);
+}
+
+.song-info {
+    margin-bottom: 25px;
+}
+
+.song-title {
+    font-size: 1.4em;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.artist-name {
+    font-size: 1em;
+    color: #aaa;
+}
+
+.progress-container {
+    width: 100%;
+    height: 4px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 35%;
+    background-color: white;
+    border-radius: 2px;
+}
+
+.time-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8em;
+    color: #aaa;
+    margin-bottom: 20px;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+}
+
+.control-btn {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 1.2em;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+.control-btn:hover {
+    opacity: 1;
+}
+
+.play-btn {
+    width: 50px;
+    height: 50px;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    font-size: 1.5em;
+}
+
+.simpson-silhouette {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 600px;
+    z-index: 5;
+    opacity: 0.8;
+}
+
+.shooting-star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background-color: white;
+    border-radius: 50%;
+    opacity: 0;
+}
+
+    .hoja {
+        width: 30px;
+        height: 200px;
+        border-radius: 100% 0 0 0;
+        border-left: 6px solid var(--green);
+        position: relative;
+        transform-origin: left bottom;
+    }
+
+    .hojita {
+        width: 70px;
+        height: 20px;
+        border-radius: 50%;
+        border-top: 6px solid var(--green);
+        position: absolute;
+    }
+
+    .hojita-1 {
+        top: -25px;
+        left: -20px;
+        transform: rotate(98deg);
+    }
+
+    .hojita-2 {
+        top: -20px;
+        left: -35px;
+        border-top-width: 8px;
+        transform: rotate(75deg);
+    }
+
+    .hojita-3 {
+        left: -45px;
+        border-top-width: 10px;
+        transform: rotate(60deg);
+    }
+
+    .hojita-4 {
+        width: 70px;
+        top: 20px;
+        left: -55px;
+        border-top-width: 10px;
+        transform: rotate(45deg);
+    }
+
+    .hojita-5 {
+        top: 40px;
+        left: -60px;
+        border-top-width: 10px;
+        transform: rotate(30deg);
+    }
+
+    .hojita-6 {
+        width: 80px;
+        top: 60px;
+        left: -75px;
+        border-top-width: 10px;
+        transform: rotate(20deg);
+    }
+
+    .hojita-7 {
+        width: 80px;
+        top: 80px;
+        left: -80px;
+        border-top-width: 8px;
+        transform: rotate(15deg);
+    }
+
+    .hojita-8 {
+        width:100px;
+        top: 100px;
+        left: -100px;
+        border-radius: 100%;
+        border-top-width: 8px;
+        transform: rotate(13deg);
+    }
+
+    .hojita-9 {
+        width: 90px;
+        top: 122px;
+        left: -90px;
+        border-top-width: 5px;
+        transform: rotate(18deg);
+    }
+
+    .hojita-10 {
+        width: 80px;
+        top: 140px;
+        left: -80px;
+        border-top-width: 6px;
+        transform: rotate(20deg);
+    }
+
+    .hojita-11 {
+        width: 80px;
+        top: 160px;
+        left: -80px;
+        border-top-width: 8px;
+        transform: rotate(22deg);
+    }
+
+    .hojita-12 {
+        top: 0px;
+        left: 5px;
+        transform: rotate(-30deg);
+    }
+
+    .hojita-13 {
+        top: 20px;
+        left: 5px;
+        border-top-width: 5px;
+        transform: rotate(-20deg);
+    }
+
+    .hojita-14 {
+        top: 40px;
+        left: 5px;
+        border-top-width: 7px;
+        transform: rotate(-15deg);
+    }
+
+    .hojita-15 {
+        width: 80px;
+        top: 60px;
+        left: 3px;
+        border-top-width: 10px;
+        transform: rotate(-15deg);
+    }
+
+    .hojita-16 {
+        width: 90px;
+        top: 83px;
+        left: 2px;
+        border-top-width: 10px;
+        transform: rotate(-13deg);
+    }
+
+    .hojita-17 {
+        width: 100px;
+        top: 105px;
+        left: 0px;
+        border-top-width: 10px;
+        transform: rotate(-12deg);
+    }
+
+    .hojita-18 {
+        width: 90px;
+        top: 130px;
+        left: 0px;
+        border-top-width: 8px;
+        transform: rotate(-5deg);
+    }
+
+    .hojita-19 {
+        width: 70px;
+        top: 150px;
+        left: 0px;
+        border-top-width: 6px;
+        transform: rotate(-5deg);
+    }
+
+    .hojita-20 {
+        width: 60px;
+        top: 170px;
+        left: 0px;
+        border-top-width: 5px;
+        transform: rotate(-5deg);
+    }
+
+    .hoja-1 {
+        position: absolute;
+        transform-origin: center bottom;
+        top: -195px;
+        left: -23px;
+        transform: rotate(150deg);
+        filter: brightness(0.7);
+        z-index: -1;
+    }
+
+    .hoja-2 {
+        position: absolute;
+        transform-origin: center bottom;
+        top: -195px;
+        left: 30px;
+        transform: rotate(130deg);
+        z-index: 10
+    }
+
+    .hoja-3 {
+        position: absolute;
+        transform-origin: center bottom;
+        top: -195px;
+        left: 50px;
+        transform: rotate(90deg);
+        filter: brightness(0.4);
+        z-index: -2;
+    }
+
+    /* arriba a la der */
+    .hoja-4 {
+        position: absolute;
+        transform-origin: center bottom;
+        top: -195px;
+        right: -10px;
+        transform: rotate(230deg);
+        filter: brightness(0.4);
+        z-index: -2;
+    }
+
+    .hoja-5 {
+        position: absolute;
+        transform-origin: center bottom;
+        top: -205px;
+        right: 70px;
+        transform: rotate(200deg);
+        z-index: 10;
+    }
+
+    .hoja-6 {
+        position: absolute;
+        transform-origin: center bottom;
+        top: -200px;
+        right: 90px;
+        transform: rotate(250deg) scaleX(-1);
+        filter: brightness(0.7);
+        z-index: -1;
+    }
+
+    /* abajo a la izq */
+    .hoja-7 {
+        position: absolute;
+        transform-origin: center bottom;
+        bottom: 0px;
+        left: 0px;
+        transform: rotate(30deg);
+        filter: brightness(0.7);
+        z-index: -1;
+    }
+
+    .hoja-8 {
+        position: absolute;
+        transform-origin: center bottom;
+        bottom: 0px;
+        left: 30px;
+        transform: rotate(50deg);
+        z-index: 10;
+    }
+
+    .hoja-9 {
+        position: absolute;
+        transform-origin: center bottom;
+        bottom: 0px;
+        left: 50px;
+        transform: rotate(80deg);
+        filter: brightness(0.4);
+        z-index: -2;
+    }
+
+    /* abajo a la der */
+    .hoja-10 {
+        position: absolute;
+        transform-origin: center bottom;
+        bottom: 0px;
+        right: 0px;
+        transform: rotate(-20deg);
+        filter: brightness(0.4);
+        z-index: -2;
+    }
+
+    .hoja-11 {
+        position: absolute;
+        transform-origin: center bottom;
+        bottom: 0px;
+        right: 30px;
+        transform: rotate(-40deg) scaleX(-1);
+        z-index: 10;
+    }
+
+    .hoja-12 {
+        position: absolute;
+        transform-origin: center bottom;
+        bottom: 0px;
+        right: 50px;
+        transform: rotate(-80deg) scaleX(-1);
+        filter: brightness(0.7);
+        z-index: -1;
+    }
+
+
+    @keyframes scale-down {
+        0% {
+            transform: scale(3);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+
+.flower-head {
+  position: absolute;
+  width: var(--flower-size);
+  height: var(--flower-size);
+  transform: translate(-50%, -50%) scale(0);
+  transform-origin: center;
+  animation: growFlower 1.5s ease-out forwards;
+  animation-delay: var(--delay);
+  z-index: 15;
+  filter: drop-shadow(0 0 10px rgba(255, 220, 0, 0.15));
+}
+
+@keyframes growFlower {
+  from {
+    transform: translate(-50%, -50%) scale(0);
+  }
+  to {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.petals {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  animation: gentleRotate 15s linear infinite;
+}
+
+@keyframes gentleRotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.petal {
+  position: absolute;
+  width: 45%;
+  height: 45%;
+  background-color: var(--petal-color);
+  border-radius: 50%;
+  top: 27.5%;
+  left: 27.5%;
+  transform-origin: center;
+  box-shadow: 0 0 10px rgba(255, 220, 0, 0.2);
+}
+
+.petal::after {
+  content: '';
+  position: absolute;
+  top: 20%;
+  left: 30%;
+  width: 40%;
+  height: 20%;
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+}
+
+.base-plants {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 20vh;
+  z-index: 1;
+}
+
+.flower {
+  position: absolute;
+  bottom: 0;
+  z-index: 10;
+  transform-origin: bottom center;
+  animation: stemSway 8s ease-in-out infinite;
+}
+
+@keyframes stemSway {
+  0%, 100% { transform: rotate(-1deg); }
+  50% { transform: rotate(1deg); }
+}
