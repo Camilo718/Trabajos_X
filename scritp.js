@@ -421,23 +421,23 @@ function createBasePlants() {
 
 // Crear flores
 function createFlowers() {
-  const flowersContainer = document.getElementById('flowers');
+  const flowersContainer = document.getElementById('flowers'); // Contenedor de flores
 
-  flowerSettings.forEach(settings => {
+  flowerSettings.forEach(settings => { // Iterar sobre cada configuración de flor
     const flower = document.createElement('div');
     flower.className = 'flower';
     flower.style.left = settings.x + '%';
 
     // SVG para tallo
-    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg"); // Crear SVG
     svg.setAttribute('width', '100');
-    svg.setAttribute('height', settings.height);
+    svg.setAttribute('height', settings.height); 
     svg.style.position = 'absolute';
     svg.style.bottom = '0';
     svg.style.left = '0';
     svg.style.overflow = 'visible';
 
-    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path"); // Crear el camino del tallo
     const controlX = settings.curve * settings.curveDirection;
     const d = `M0,${settings.height} C${controlX},${settings.height * 0.6} ${controlX/2},${settings.height * 0.3} 0,0`;
     path.setAttribute('d', d);
