@@ -1,0 +1,31 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+  background: black;
+}
+
+canvas {
+  display: block;
+}
+
+.controls {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(0,0,0,0.5);
+  padding: 10px;
+  border-radius: 8px;
+  z-index: 10;
+}
+
+.controls label {
+  display: block;
+  margin-bottom: 5px;
+  color: white;
+}

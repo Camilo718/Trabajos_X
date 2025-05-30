@@ -389,7 +389,8 @@ function animate() {
     });
     
     animationFrameId = requestAnimationFrame(animate);
-}
+} //---------------------------------------------------------------------noche estrellada 
+
 // Crear plantas base
 function createBasePlants() {
   const basePlants = document.getElementById('base-plants');
