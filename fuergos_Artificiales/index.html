@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Tangerine&display=swap" rel="stylesheet">
+    <title>Luces Amor</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: url('') no-repeat center/cover;
+            background-color: #0a0f0d; /* Fallback color */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            font-family: 'Tangerine', cursive;
+        }
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        .name {
+            position: relative;
+            z-index: 2;
+            font-size: 5rem;
+            color: #fff;
+            font-family: 'Tangerine', cursive;
+            text-shadow: 
+                0 0 10px #ff4d94,
+                0 0 20px #ff0066,
+                0 0 30px #ff99cc,
+                0 0 50px #ff0066;
+            animation: pulse 2s ease-in-out infinite alternate;
+        }
+        @keyframes pulse {
+            from {
+                text-shadow: 
+                    0 0 10px #ff4d94,
+                    0 0 20px #ff0066,
+                    0 0 30px #ff99cc,
+                    0 0 50px #ff0066;
+                transform: scale(1);
+            }
+            to {
+                text-shadow: 
+                    0 0 15px #ff4d94,
+                    0 0 30px #ff0066,
+                    0 0 50px #ff99cc,
+                    0 0 70px #ff0066;
+                transform: scale(1.05);
+            }
+        }
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+        .star {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
+            animation: twinkle 2s infinite;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+        @media (max-width: 600px) {
+            .name {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="fireworksCanvas"></canvas>
+    <div class="stars" id="stars"></div>
+    <div class="name"></div>
+    <script>
+        const canvas = document.getElementById('fireworksCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Crear estrellas de fondo
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 200; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            const size = Math.random() * 3 + 1;
+            star.style.width = `${size}px`;
+            star.style.height = star.style.width;
+            star.style.left = `${Math.random() * 100}%`;
+            star.style.top = `${Math.random() * 100}%`;
+            star.style.animationDelay = `${Math.random() * 2}s`;
+            star.style.opacity = Math.random() * 0.5 + 0.3;
+            if (Math.random() < 0.2) {
+                star.style.background = '#f0e7d8';
+                star.style.boxShadow = '0 0 8px rgba(240, 231, 216, 0.8)';
+            }
+            starsContainer.appendChild(star);
+        }
+
+        class Particle {
+            constructor(x, y, color, isHeart = false, isText = false, targetX, targetY, type = 'default') {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.radius = isText ? 1.8 : Math.random() * 4 + 1;
+                this.type = type;
+                this.velocity = this.getVelocity(isHeart, isText, targetX, targetY);
+                this.alpha = 1.5;
+                this.friction = isText ? 0.995 : 0.98;
+                this.life = isText ? 150 : Math.random() * 100 + 100;
+                this.isHeart = isHeart;
+                this.isText = isText;
+                this.phase = Math.random() * Math.PI * 2;
+            }
+
+            getVelocity(isHeart, isText, targetX, targetY) {
+                if (isHeart) {
+                    const t = Math.random() * Math.PI * 2;
+                    const x = 16 * Math.pow(Math.sin(t), 3);
+                    const y = 13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t);
+                    const speed = 0.1;
+                    return { x: x * speed, y: -y * speed };
+                } else if (isText) {
+                    return {
+                        x: (targetX - this.x) * 0.05,
+                        y: (targetY - this.y) * 0.05
+                    };
+                } else if (this.type === 'spiral') {
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = Math.random() * 5 + 5;
+                    return {
+                        x: Math.cos(angle) * speed,
+                        y: Math.sin(angle) * speed
+                    };
+                } else if (this.type === 'ring') {
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = 8;
+                    return {
+                        x: Math.cos(angle) * speed,
+                        y: Math.sin(angle) * speed
+                    };
+                } else {
+                    return {
+                        x: (Math.random() - 0.5) * 12,
+                        y: (Math.random() - 0.5) * 12
+                    };
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.alpha;
+                if (this.isHeart) {
+                    ctx.beginPath();
+                    const scale = this.radius * 0.15;
+                    for (let t = 0; t < Math.PI * 2; t += 0.1) {
+                        const x = 16 * Math.pow(Math.sin(t), 3);
+                        const y = 13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t);
+                        ctx.lineTo(this.x + x * scale, this.y - y * scale);
+                    }
+                    ctx.closePath();
+                    ctx.fillStyle = this.color;
+                    ctx.fill();
+                } else {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = this.color;
+                    ctx.fill();
+                }
+                ctx.restore();
+            }
+
+            update() {
+                if (this.type === 'spiral') {
+                    const angle = Math.atan2(this.velocity.y, this.velocity.x);
+                    this.velocity.x = Math.cos(angle + 0.1) * Math.sqrt(this.velocity.x ** 2 + this.velocity.y ** 2);
+                    this.velocity.y = Math.sin(angle + 0.1) * Math.sqrt(this.velocity.x ** 2 + this.velocity.y ** 2);
+                }
+                this.velocity.x *= this.friction;
+                this.velocity.y *= this.friction;
+                this.x += this.velocity.x;
+                this.y += this.velocity.y;
+                this.alpha -= 1 / this.life;
+                if (!this.isText) {
+                    this.velocity.y += 0.05;
+                }
+            }
+        }
+
+        class Firework {
+            constructor(x, y, isClick = false) {
+                this.x = x || Math.random() * canvas.width;
+                this.y = isClick ? y : canvas.height;
+                this.targetY = isClick ? y : Math.random() * canvas.height * 0.4;
+                this.color = isClick ? '#ff0000' : `hsl(${Math.random() * 60 + 330}, 80%, ${Math.random() * 20 + 60}%)`;
+                this.particles = [];
+                this.hasExploded = isClick;
+                this.speed = isClick ? 0 : Math.random() * 8 + 6;
+                this.type = isClick ? 'heart' : Math.random() < 0.3 ? 'spiral' : Math.random() < 0.6 ? 'ring' : 'default';
+                this.flashAlpha = isClick ? 1 : 0;
+            }
+
+            draw() {
+                ctx.save();
+                if (!this.hasExploded) {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, 4, 0, Math.PI * 2);
+                    ctx.fillStyle = this.color;
+                    ctx.fill();
+                    ctx.closePath();
+                } else if (this.flashAlpha > 0) {
+                    ctx.globalAlpha = this.flashAlpha;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, 20, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+                    ctx.fill();
+                    ctx.restore();
+                }
+                ctx.restore();
+            }
+
+            update() {
+                if (!this.hasExploded) {
+                    this.y -= this.speed;
+                    if (this.y <= this.targetY) {
+                        this.explode();
+                    }
+                } else {
+                    this.flashAlpha -= 0.02;
+                    this.particles.forEach((particle, index) => {
+                        particle.update();
+                        particle.draw();
+                        if (particle.alpha <= 0) {
+                            this.particles.splice(index, 1);
+                        }
+                    });
+                }
+            }
+
+            explode() {
+                this.hasExploded = true;
+                this.flashAlpha = 1;
+                const particleCount = this.type === 'heart' ? 35 : this.type === 'ring' ? 80 : Math.random() * 100 + 100;
+                for (let i = 0; i < particleCount; i++) {
+                    const isHeart = this.type === 'heart' || (this.type !== 'spiral' && this.type !== 'ring' && Math.random() < 0.3);
+                    this.particles.push(new Particle(this.x, this.y, this.color, isHeart, false, null, null, this.type));
+                }
+                if (this.type !== 'heart') {
+                    this.addTextParticles();
+                }
+            }
+
+            addTextParticles() {
+                const text = "T'amo ♡ ";
+                const fontSize = 30;
+                ctx.font = `${fontSize}px Tangerine`;
+                const textWidth = ctx.measureText(text).width;
+                const startX = this.x - textWidth / 2;
+                const startY = this.y;
+
+                const tempCanvas = document.createElement('canvas');
+                tempCanvas.width = textWidth;
+                tempCanvas.height = fontSize * 1.5;
+                const tempCtx = tempCanvas.getContext('2d');
+                tempCtx.font = `${fontSize}px Tangerine`;
+                tempCtx.fillStyle = '#fff';
+                tempCtx.fillText(text, 0, fontSize);
+
+                const imageData = tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height).data;
+                for (let y = 0; y < tempCanvas.height; y += 1) {
+                    for (let x = 0; x < tempCanvas.width; x += 1) {
+                        if (imageData[(y * tempCanvas.width + x) * 4 + 3] > 128) {
+                            const targetX = startX + x;
+                            const targetY = startY + y - fontSize;
+                            this.particles.push(new Particle(this.x, this.y, '#ffffff', false, true, targetX, targetY));
+                        }
+                    }
+                }
+            }
+        }
+
+        let fireworks = [];
+
+        function animate() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            if (Math.random() < 0.06) {
+                fireworks.push(new Firework());
+            }
+            fireworks.forEach((firework, index) => {
+                firework.update();
+                firework.draw();
+                if (firework.hasExploded && firework.particles.length === 0) {
+                    fireworks.splice(index, 1);
+                }
+            });
+            requestAnimationFrame(animate);
+        }
+
+        canvas.addEventListener('click', (event) => {
+            const rect = canvas.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+            const firework = new Firework(x, y, true);
+            firework.explode();
+            fireworks.push(firework);
+        });
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        animate();
+    </script>
+</body>
+</html>

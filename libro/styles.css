@@ -1,12 +1,12 @@
 * {
     box-sizing: border-box;
   }
-  body { 
+  body { /*----------------------------------------estructura deel libro------------------------------------------*/
     margin: 0;
     display: flex;
     min-height: 100dvh;
     perspective: 1000px;
-    font: 1em/1.4 "Poppins", sans-serif; 
+    font-family: "Joti One", serif;
     overflow: hidden; 
     color: hsl(180, 42%, 95%); 
     background-image: radial-gradient(
@@ -206,7 +206,8 @@
     display: flex;
     min-height: 100dvh;
     perspective: 1000px;
-    font: 1em/1.4 "Poppins", sans-serif;
+    font: 1em/1.4 "Poppins", sans-serif;  
+    font-family: "Joti One", serif;
     overflow: hidden;
     color: hsl(180 68% 5%);
     background: linear-gradient(to right, /*---------------------------- colores en el body----------------------*/

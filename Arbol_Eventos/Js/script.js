@@ -147,7 +147,7 @@ function showCountdown() {
   let startParam = getURLParam('start');
   let eventParam = getURLParam('event'); // Fecha del evento                                              -------cambiar fecha y evento ---
   let startDate = startParam ? new Date(startParam + 'T00:00:00') : new Date('2025-02-22T00:00:00'); // Fecha de inicio por defecto
-  let eventDate = eventParam ? new Date(eventParam + 'T00:00:00') : new Date('2025-06-13T00:00:00'); // Fecha de evento por defecto
+  let eventDate = eventParam ? new Date(eventParam + 'T00:00:00') : new Date('2025-07-13T00:00:00'); // Fecha de evento por defecto
 
   function update() {
     const now = new Date();
@@ -179,7 +179,7 @@ function playBackgroundMusic() {
     audio.src = 'Music/' + musicaParam;
   } else {
     // Si no hay parámetro, elegir una aleatoria de las dos
-    const canciones = ['music1.mp3', 'music3.mp3'];
+    const canciones = ['music3.mp3', 'music1.mp3'];
     const aleatoria = canciones[Math.floor(Math.random() * canciones.length)];
     audio.src = 'Music/' + aleatoria;
   }
